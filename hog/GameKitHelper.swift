@@ -156,11 +156,11 @@ extension GameKitHelper: GKLocalPlayerListener {
         if let matchData = match.matchData {
             do {
                 md = try JSONDecoder().decode(GameCenterData.self, from: matchData)
+                print("matchData: \(String(describing: md!))")
             } catch {
                 print("error (\(error))\nparsing:\(matchData)")
             }
         } else { print("no matchData") }
-        print("matchData: \(String(describing: md!))")
     }
 
     func player(_ player: GKPlayer,
