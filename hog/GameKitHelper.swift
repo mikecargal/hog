@@ -151,12 +151,25 @@ extension GameKitHelper: GKTurnBasedMatchmakerViewControllerDelegate {
 }
 
 extension GameKitHelper: GKLocalPlayerListener {
+    func showMatchData(_ match: GKTurnBasedMatch) {
+        var md: GameCenterData?
+        if let matchData = match.matchData {
+            do {
+                md = try JSONDecoder().decode(GameCenterData.self, from: matchData)
+            } catch {
+                print("error (\(error))\nparsing:\(matchData)")
+            }
+        } else { print("no matchData") }
+        print("matchData: \(String(describing: md!))")
+    }
+
     func player(_ player: GKPlayer,
                 receivedTurnEventFor match: GKTurnBasedMatch,
                 didBecomeActive: Bool)
     {
         print("player( \(player)\n receivedTurnEventFor:\(match)\ndidBecomeActive:\(didBecomeActive)")
-        print(" -- currentplayer: \(match.currentParticipant?.player)")
+        print(" -- currentplayer: \(String(describing: match.currentParticipant?.player))")
+        showMatchData(match)
         matchmakerViewController?.dismiss(animated: true, completion: nil)
         NotificationCenter.default.post(name: .receivedTurnEvent, object: match)
     }
@@ -165,7 +178,7 @@ extension GameKitHelper: GKLocalPlayerListener {
         guard let match = currentMatch else { return false }
         let currentParticipant = match.currentParticipant
         let currentPlayer = currentParticipant?.player
-        print("match = \(match)\ncurrentPlayer = \(currentPlayer)\nlocalPlayer = \(GKLocalPlayer.local)")
+        print("match = \(match)\ncurrentPlayer = \(String(describing: currentPlayer))\nlocalPlayer = \(GKLocalPlayer.local)")
         return match.currentParticipant?.player == GKLocalPlayer.local
     }
 

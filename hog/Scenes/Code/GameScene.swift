@@ -187,17 +187,18 @@ class GameScene: SKScene {
     func processEndTurnForRemoteGame() {
         // update the local player's stats
         if let localPlayer = gameCenterData?.getLocalPlayer() {
-            if let index = gameCenterData?.getPlayerIndex(for: localPlayer) {
-                gameCenterData?.players[index].totalPoints =
+          //  if let index = gameCenterData?.getPlayerIndex(for: localPlayer) {
+            localPlayer.totalPoints =
                     gameModel.players[0].totalPoints
-            }
+         //   }
         }
         // update the remote player's stats
         if let remotePlayer = gameCenterData?.getRemotePlayer() {
-            if let index = gameCenterData?.getPlayerIndex(for: remotePlayer) {
-                gameCenterData?.players[index].totalPoints =
+            //if let index = gameCenterData?.getPlayerIndex(for: remotePlayer) {
+            //    gameCenterData?.players[index]
+            remotePlayer.totalPoints =
                     gameModel.players[1].totalPoints
-            }
+          //  }
         }
         // end the turn and send the data
         GameKitHelper.shared.endTurn(gameCenterData!) { error in

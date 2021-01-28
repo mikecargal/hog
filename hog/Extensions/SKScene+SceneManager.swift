@@ -109,10 +109,12 @@ extension SKScene {
                     // we'll just use the default
                 }
             }
+            print("GKLocalPlayer.local=\(GKLocalPlayer.local)")
             for participant in match.participants {
                 if let player = participant.player {
                     let gcPlayer = GameCenterPlayer(playerId: player.gamePlayerID,
                                                     playerName: player.displayName)
+                    print("adding player: \(gcPlayer)")
                     if player == GKLocalPlayer.local {
                         gcPlayer.isLocalPlayer = true
                     }

@@ -8,10 +8,11 @@
 import GameKit
 
 class GameCenterData: Codable {
-    var players: [GameCenterPlayer] = []
+    private var players: [GameCenterPlayer] = []
     
     func addPlayer(_ player: GameCenterPlayer) {
-        if let p = getPlayer(withName: player.playerName) {
+        print(">>>>> add player \(player)\nto:\(players)")
+        if let p = getPlayer(withId: player.playerId) {
             p.isLocalPlayer = player.isLocalPlayer
             p.isWinner = player.isWinner
         } else {
@@ -27,11 +28,17 @@ class GameCenterData: Codable {
         return players.first { !$0.isLocalPlayer }
     }
     
-    func getPlayer(withName playerName: String) -> GameCenterPlayer? {
-        return players.first { $0.playerName == playerName }
+    func getPlayer(withId playerId: String) -> GameCenterPlayer? {
+        return players.first { $0.playerId == playerId }
     }
     
     func getPlayerIndex(for player: GameCenterPlayer) -> Int? {
         return players.firstIndex(of: player)
+    }
+}
+
+extension GameCenterData: CustomDebugStringConvertible {
+    var debugDescription: String {
+        "GameCenterData with players: \(players)"
     }
 }
